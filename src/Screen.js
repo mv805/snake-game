@@ -1,9 +1,11 @@
 export class Screen {
 
+    #width = 20;
+    #height = 20;
+    #grid;
+
     constructor() {
-        this.width = 20;
-        this.height = 20;
-        this.grid = this.#generateGrid();
+        this.#grid = this.#generateGrid();
     }
 
     #generateGrid() {
@@ -11,8 +13,8 @@ export class Screen {
         const grid = document.createElement('div');
         grid.classList.add('grid');
 
-        for (let row = 0; row < this.height; row++) {
-            for (let col = 0; col < this.width; col++) {
+        for (let row = 0; row < this.#height; row++) {
+            for (let col = 0; col < this.#width; col++) {
                 let cell = document.createElement('div');
                 cell.classList.add('cell');
                 cell.setAttribute('data-row', row);
@@ -23,19 +25,28 @@ export class Screen {
         return grid;
     }
 
-    render(snake) {
-
-        let cellToRender;
-
-        snake.body.forEach(cell => {
-            cellToRender = document.body.querySelector(`[data-row="${ cell.x }"][data-col="${ cell.y }"]`);
-            if (!cellToRender.hasChildNodes()) {
-                cellToRender.appendChild(snake.bodyCellElement);
-            } else {
-                return;
-            }
-        });
-
+    get screenElement() {
+        return this.#grid;
     }
 
+    #clearGrid() {
+        const gridCells = document.body.querySelectorAll('.cell');
+        for (let cell of gridCells) {
+            if (cell.hasChildNodes()) {
+                cell.textContent = '';
+            }
+        }
+    }
+
+    renderSnake(snake) {
+
+        this.#clearGrid();
+        let cellToRender;
+        for (const cell of snake.body) {
+            cellToRender = document.body.querySelector(`[data-row="${ cell.y }"][data-col="${ cell.x }"]`);
+            cellToRender.appendChild(snake.bodyCellElement);
+        }
+
+    };
 }
+
