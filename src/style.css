@@ -2,7 +2,6 @@ body {
     height: 100vh;
     width: 100vw;
     background-color: rgb(27, 27, 27);
-    box-sizing: border-box;
     margin: 0;
     display: flex;
     justify-content: center;
@@ -18,7 +17,6 @@ body {
     grid-template: repeat(20, 1fr) / repeat(20, 1fr);
     gap: 1px;
     padding: 2%;
-
     max-width: 800px;
     max-height: 800px;
 }
@@ -26,4 +24,17 @@ body {
 .cell {
     background-color: rgb(32, 32, 32);
     border-radius: 2px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.snake-cell {
+    background-color: rgb(87, 175, 53);
+    box-sizing: border-box;
+    border-radius: 2px;
+    height: 80%;
+    width: 80%;
 }
