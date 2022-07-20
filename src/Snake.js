@@ -41,6 +41,22 @@ export class Snake {
         this.#removeLastCell();
     }
 
+    #oppositeDrivingDirection(direction){
+
+        let opposites = {
+            'up': 'down',
+            'down': 'up',
+            'left': 'right',
+            'right': 'left'
+        }
+
+        if(opposites[`${direction}`] === this.#drivingDirection){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     get bodyCellElement() {
         let element = document.createElement('div');
         element.classList.add('snake-cell');
@@ -50,7 +66,8 @@ export class Snake {
     set drivingDirection(newDirection){
     
         let direction = newDirection.toLowerCase().replace('arrow', '');
-        if(direction === this.#drivingDirection){
+        if(direction === this.#drivingDirection ||
+            this.#oppositeDrivingDirection(direction)){
             return;
         }
 
