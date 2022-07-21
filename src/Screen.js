@@ -1,12 +1,12 @@
 export class Screen {
 
-    #width = 20;
-    #height = 20;
-    #grid;
-
     constructor() {
         this.#grid = this.#generateGrid();
     }
+
+    #width = 20;
+    #height = 20;
+    #grid;
 
     #generateGrid() {
 
@@ -25,28 +25,38 @@ export class Screen {
         return grid;
     }
 
-    get screenElement() {
-        return this.#grid;
-    }
 
     #clearGrid() {
         const gridCells = document.body.querySelectorAll('.cell');
         for (let cell of gridCells) {
-            if (cell.hasChildNodes()) {
-                cell.textContent = '';
-            }
+            cell.textContent = '';
         }
     }
 
-    renderSnake(snake) {
+    render(gameElements) {
 
         this.#clearGrid();
-        let cellToRender;
-        for (const cell of snake.body) {
-            cellToRender = document.body.querySelector(`[data-row="${ cell.y }"][data-col="${ cell.x }"]`);
-            cellToRender.appendChild(snake.bodyCellElement);
-        }
 
-    };
+        let cellToRender;
+        gameElements.forEach(element => {
+            
+            if (element.constructor.name === 'Snake') {
+                for (const cell of element.body) {
+                    cellToRender = document.body.querySelector(`[data-row="${ cell.y }"][data-col="${ cell.x }"]`);
+                    cellToRender.appendChild(element.bodyCellElement);
+                }
+            } else if (element.constructor.name === 'Food') {
+                cellToRender = document.body.querySelector(`[data-row="${ element.pos.y }"][data-col="${ element.pos.x }"]`);
+                cellToRender.appendChild(element.foodCellElement);
+                return;
+            }
+        });
+
+
+    }
+
+    get screenElement() {
+        return this.#grid;
+    }
 }
 

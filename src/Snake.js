@@ -2,9 +2,6 @@ export class Snake {
 
     #body = [
         { x: 9, y: 9 },
-        { x: 9, y: 10 },
-        { x: 9, y: 11 },
-        { x: 9, y: 12 }
     ];
 
     #directionOffset = {
@@ -37,12 +34,6 @@ export class Snake {
 
     }
 
-    move() {
-        //add one cell forward and remove trailing cell
-        this.#addLeadCell();
-        this.#removeLastCell();
-    }
-
     #checkOppositeDirection(direction) {
 
         let opposites = {
@@ -58,6 +49,16 @@ export class Snake {
             return false;
         };
 
+    }
+
+    move() {
+        //add one cell forward and remove trailing cell
+        this.#addLeadCell();
+        this.#removeLastCell();
+    }
+
+    grow() {
+        this.#addLeadCell();
     }
 
     hitWall() {
@@ -90,6 +91,12 @@ export class Snake {
 
     }
 
+    get body() {
+
+        return this.#body;
+
+    }
+
     set drivingDirection(newDirection) {
 
         if (newDirection === this.#drivingDirection ||
@@ -100,9 +107,4 @@ export class Snake {
         this.#drivingDirection = newDirection;
     }
 
-    get body() {
-
-        return this.#body;
-
-    }
 }

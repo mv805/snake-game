@@ -38,3 +38,11 @@ body {
     height: 80%;
     width: 80%;
 }
+
+.food-cell {
+    background-color: red;
+    box-sizing: border-box;
+    border-radius: 2px;
+    height: 80%;
+    width: 80%;
+}

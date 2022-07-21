@@ -2,11 +2,14 @@ import './style.css';
 import { Screen } from './Screen';
 import { Snake } from './Snake';
 import { ControlListener } from './ControlListener';
+import { Food } from './Food';
 
 let screen = new Screen();
 let snake = new Snake();
+let renderElements = [snake, new Food()];
 let controlListener = new ControlListener(snake);
 
+const TIME_REDUCE_STEP = 0.25;
 let gameSpeed = 100;
 let gameUpdateInterval;
 
@@ -19,7 +22,7 @@ const controls = {
 
 //initial setup
 document.body.appendChild(screen.screenElement);
-screen.renderSnake(snake);
+screen.render(renderElements);
 document.addEventListener('keydown', start);
 
 function start(e) {
@@ -40,13 +43,18 @@ function update() {
             console.log('hit wall');
             break;
         case 'SELF':
-
+            clearInterval(gameUpdateInterval);
+            console.log('hit self');
             break;
         case 'FOOD':
-
+            console.log('ate food');
+            renderElements[1] = new Food();
+            gameSpeed -= TIME_REDUCE_STEP;
+            clearInterval(gameUpdateInterval);
+            gameUpdateInterval = setInterval(update, gameSpeed);
+            snake.grow();
             break;
         case 'CLEAR':
-            console.log('moving to clear...');
             snake.move();
             break;
 
@@ -54,7 +62,7 @@ function update() {
             break;
     }
 
-    screen.renderSnake(snake);
+    screen.render(renderElements);
 
 }
 
@@ -64,15 +72,12 @@ function checkCollision(snake) {
 
     if (!nextCell && snake.hitWall()) {
         return 'WALL';
-    }
-
-    switch (nextCell.children[0]) {
-        case undefined:
-            console.log('its clear');
-            return 'CLEAR';
-
-        default:
-            break;
+    } else if (nextCell.children[0] === undefined) {
+        return 'CLEAR';
+    } else if (nextCell.children[0].className === 'snake-cell') {
+        return 'SELF';
+    } else if (nextCell.children[0].className === 'food-cell') {
+        return 'FOOD';
     }
 }
 
