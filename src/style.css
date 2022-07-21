@@ -1,24 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
 body {
     height: 100vh;
     width: 100vw;
     background-color: rgb(27, 27, 27);
     margin: 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.score {
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 5vw;
+}
+
+.header {
+    font-family: 'Lobster', cursive;
+    color: white;
+    font-size: 10vw;
+    margin: 1rem  0 0 0;
 }
 
 .grid {
+    position: relative;
     height: 90vw;
     width: 90vw;
     background-color: rgb(48, 48, 48);
     border-radius: 3%;
-    margin: 1rem;
+    margin: 0.5rem 1rem;
     display: grid;
     grid-template: repeat(20, 1fr) / repeat(20, 1fr);
     gap: 1px;
     padding: 2%;
-    max-width: 800px;
-    max-height: 800px;
+    max-width: 600px;
+    max-height: 600px;
 }
 
 .cell {
@@ -45,4 +63,70 @@ body {
     border-radius: 2px;
     height: 80%;
     width: 80%;
+}
+
+.game-over-bg {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.842);
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-over-splash{
+    color: white;
+    background-color: rgb(49, 49, 49);
+    border-radius: 20px;
+    border: 5px solid gray;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    max-width: 500px;
+    height: 50%;
+    font-size: 5vw;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.restart {
+    font-family: 'Courier New', Courier, monospace;
+    width: 50%;
+    height: 20%;
+    font-weight: bold;
+    font-size: 5vw;
+    background-color: darkgray;
+    border-radius: 20px;
+    border: 3px solid rgb(20, 20, 20);
+    cursor: pointer;
+}
+
+.game-over-splash h1 {
+    font-family: 'Lobster', cursive;
+    font-size: 10vw;
+}
+
+@media screen and (min-width: 700px){
+    .score{
+        font-size: 2rem;
+    }
+
+    .header {
+        font-size: 3.5rem;
+    }
+
+    .game-over-splash h1 {
+        font-size: 5rem;
+    }
+
+    .game-over-splash{
+        font-size: 2rem;
+    }
+
+    .restart{
+        font-size: 2rem;
+    }
 }
