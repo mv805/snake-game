@@ -10,13 +10,15 @@ let renderElements = [snake, new Food()];
 let controlListener = new ControlListener(snake);
 
 let score = 0;
-const TIME_REDUCE_STEP = 0.25;
-let gameSpeed = 100;
+const TIME_REDUCE_STEP = 0.5;
+let gameSpeed = 140;
 let gameUpdateInterval;
 
 let headerElement = header();
 let scoreBoardElement = scoreBoard();
+let screenElement = screen.screenElement;
 let gameOverSplashElement = gameOverSplash(score);
+let controlBoardElement = controlListener.controlBoard;
 
 const controls = {
     'ArrowLeft': 'left',
@@ -27,11 +29,17 @@ const controls = {
 
 //initial setup
 document.body.appendChild(headerElement);
-document.body.appendChild(screen.screenElement);
+document.body.appendChild(screenElement);
 document.body.appendChild(scoreBoardElement);
+document.body.appendChild(controlBoardElement);
 
 screen.render(renderElements);
 document.addEventListener('keydown', start);
+
+let controlButtons = document.querySelectorAll('.control-button');
+controlButtons.forEach(button => {
+    button.addEventListener('click', start);
+});
 
 function scoreBoard() {
     let scoreBoard = document.createElement('div');
@@ -78,31 +86,46 @@ function gameOverSplash(score) {
 function start(e) {
 
     if (controls[`${ e.key }`]) {
-        console.log('started');
         gameUpdateInterval = setInterval(update, gameSpeed);
         document.removeEventListener('keydown', start);
+    } else if (e.target.localName === 'button') {
+        gameUpdateInterval = setInterval(update, gameSpeed);
+        controlButtons.forEach(button => {
+            button.removeEventListener('click', start);
+        });
     }
 
 }
 
 function restartGame() {
 
-    document.body.removeChild(gameOverSplashElement);
-    document.body.removeChild(screen.screenElement);
+    document.body.removeChild(headerElement);
+    document.body.removeChild(screenElement);
     document.body.removeChild(scoreBoardElement);
+    document.body.removeChild(controlBoardElement);
+    document.body.removeChild(gameOverSplashElement);
 
     screen = new Screen();
     snake = new Snake();
     renderElements = [snake, new Food()];
     controlListener = new ControlListener(snake);
+    controlBoardElement = controlListener.controlBoard;
 
     score = 0;
 
-    document.body.appendChild(screen.screenElement);
+    document.body.appendChild(headerElement);
+    document.body.appendChild(screenElement);
     document.body.appendChild(scoreBoardElement);
+    document.body.appendChild(controlBoardElement);
+
     screen.render(renderElements);
 
     document.addEventListener('keydown', start);
+    controlButtons = document.querySelectorAll('.control-button');
+    console.log(controlButtons);
+    controlButtons.forEach(button => {
+        button.addEventListener('click', start);
+    });
 }
 
 function update() {

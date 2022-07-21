@@ -109,6 +109,52 @@ body {
     font-size: 10vw;
 }
 
+.control-board {
+    height: 30%;
+    width: 90vw;
+    background-color: rgb(48, 48, 48);
+    border-radius: 20px;
+    margin: 0.5rem 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; 
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+    "none up none"
+    "left none right"
+    "none down none";
+    padding: 2%;
+    max-width: 600px;
+    max-height: 600px;
+}
+
+.control-button {
+    background-color: rgb(110, 110, 110);
+    border: none;
+    border-radius: 10px;
+}
+
+.control-button:active {
+    background-color: white;
+}
+
+.button-up {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+.button-left {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+.button-right {
+    grid-column-start: 3;
+    grid-column-end: 4;
+}
+.button-down {
+    grid-column-start: 2;
+    grid-column-end:3;
+}
+
 @media screen and (min-width: 700px){
     .score{
         font-size: 2rem;
