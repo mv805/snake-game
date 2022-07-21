@@ -10,8 +10,9 @@ let renderElements = [snake, new Food()];
 let controlListener = new ControlListener(snake);
 
 let score = 0;
-const TIME_REDUCE_STEP = 0.5;
-let gameSpeed = 140;
+const TIME_REDUCE_STEP = 2;
+const BASE_SPEED = 200;
+let gameSpeed = BASE_SPEED;
 let gameUpdateInterval;
 
 let headerElement = header();
@@ -19,6 +20,12 @@ let scoreBoardElement = scoreBoard();
 let screenElement = screen.screenElement;
 let gameOverSplashElement = gameOverSplash(score);
 let controlBoardElement = controlListener.controlBoard;
+
+let footer = document.createElement('footer');
+footer.innerHTML = `
+Coded by <a href="https://github.com/mv805">Matt Villa</a>. All rights reserved. V.1.0.0
+`;
+footer.classList.add('footer');
 
 const controls = {
     'ArrowLeft': 'left',
@@ -32,6 +39,7 @@ document.body.appendChild(headerElement);
 document.body.appendChild(screenElement);
 document.body.appendChild(scoreBoardElement);
 document.body.appendChild(controlBoardElement);
+document.body.appendChild(footer);
 
 screen.render(renderElements);
 document.addEventListener('keydown', start);
@@ -87,9 +95,14 @@ function start(e) {
 
     if (controls[`${ e.key }`]) {
         gameUpdateInterval = setInterval(update, gameSpeed);
-        document.removeEventListener('keydown', start);
+        removeStartListeners();
     } else if (e.target.localName === 'button') {
         gameUpdateInterval = setInterval(update, gameSpeed);
+        removeStartListeners();
+    }
+
+    function removeStartListeners(params) {
+        document.removeEventListener('keydown', start);
         controlButtons.forEach(button => {
             button.removeEventListener('click', start);
         });
@@ -104,6 +117,7 @@ function restartGame() {
     document.body.removeChild(scoreBoardElement);
     document.body.removeChild(controlBoardElement);
     document.body.removeChild(gameOverSplashElement);
+    document.body.removeChild(footer);
 
     screen = new Screen();
     snake = new Snake();
@@ -111,12 +125,14 @@ function restartGame() {
     controlListener = new ControlListener(snake);
     controlBoardElement = controlListener.controlBoard;
 
+    gameSpeed=BASE_SPEED;
     score = 0;
 
     document.body.appendChild(headerElement);
     document.body.appendChild(screenElement);
     document.body.appendChild(scoreBoardElement);
     document.body.appendChild(controlBoardElement);
+    document.body.appendChild(footer);
 
     screen.render(renderElements);
 
